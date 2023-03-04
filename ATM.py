@@ -18,22 +18,32 @@ class ATM:
 				for i in self.managed_by.customers:
 					if (i["details"].get_name() == self.__current.get_owner()):
 						for x in i["details"].get_accounts():
+							if(len(i["details"].get_accounts()) == 1):
+								transaction = ATM_Transaction.Withdrawal(amount)
+								transaction.withdraw(x, amount)
 							if(x.get_accountType() == accountType):
 								transaction = ATM_Transaction.Withdrawal(amount)
 								transaction.withdraw(x, amount)
 			case "Transfer":
+				transferAcc = self.managed_by.get_acct(transferAccNo)
 				for i in self.managed_by.customers:
 					if (i["details"].get_name() == self.__current.get_owner()):
 						for x in i["details"].get_accounts():
+							if(len(i["details"].get_accounts()) == 1):
+								transaction = ATM_Transaction.Transfer(amount)
+								transaction.update(x, amount, transferAcc)
 							if(x.get_accountType() == accountType):
-								transaction = ATM_Transaction.Withdrawal(amount)
-								transaction.withdraw(x, amount)
+								transaction = ATM_Transaction.Transfer(amount)
+								transaction.update(x, amount, transferAcc)
+		
 
 	def check_accts(self):
-		if(ATM_Card.get_acct_types().count() == 2):
-			return True
+		for i in self.managed_by.customers:
+			if (i["details"].get_name() == self.__current.get_owner()):
+				if(int(len(i["details"].get_accounts())>1)):
+					 return True
 		return False
-
+				
 	def check_pins(self, pin):
 		for i in self.managed_by.customers:
 			if (i["details"].get_name() == self.__current.get_owner()):
@@ -49,5 +59,7 @@ class ATM:
 		for i in self.managed_by.customers:
 			if (i["details"].get_name() == self.__current.get_owner()):
 				for x in i["details"].get_accounts():
+					if(len(i["details"].get_accounts()) == 1):
+						return x
 					if(x.get_accountType() == Accounttype):
 						return x.check_balance()

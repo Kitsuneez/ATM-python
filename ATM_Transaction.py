@@ -28,9 +28,10 @@ class Withdrawal(ATM_Transaction):
 		return Account.debit(self._Amount)
 
 class Transfer(ATM_Transaction):
-	def __init__(self):
+	def __init__(self, amount):
 		self.Date = datetime.datetime.now()
 		self._type = "Transfer"
+		self._Amount = amount
 	
 	def update(self, Account, amount, transferAcc):
 		Account.debit(self._Amount)

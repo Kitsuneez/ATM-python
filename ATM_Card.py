@@ -5,8 +5,8 @@ class ATM_Card:
 		self.__cardNumber = cardNumber
 		self.__customer = customer
 
-	def get_acct_types(self):
-		return Customer.get_accounts(self.__customer)
+	def get_acct_types(self, customer):
+		return Customer.get_accounts(customer)
 	
 	def access(self):
 		return Account(self.__customer)	

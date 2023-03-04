@@ -15,10 +15,12 @@ class Account:
 		return self._accountType
 
 	def credit(self, amount):
-		if(amount > 0):
-			self.balance += amount
+		self.__validateAmount(amount)
+		if(float(amount) > 0):
+			self.balance += float(amount)
 
 	def debit(self, amount):
+		self.__validateAmount(amount)
 		if(float(amount) <=  self.balance):
 			self.balance -= float(amount)
 			return True
@@ -27,15 +29,14 @@ class Account:
 
 	def __validateAmount(self, amount):
 		try:
-			amount = float(amount)
-			if(amount <= 0 or amount[::-1].find('.') > 2):
+			if(float(amount) <= 0 or str(amount)[::-1].find('.') > 2):
 				raise ValueError
 			return True
 		except ValueError:
 			raise ValueError
 
 class Savings_Account(Account):
-	def __init__(self, owner, accountNumber):
+	def __init__(self, accountNumber, owner):
 		super(Savings_Account, self).__init__("Savings",owner)
 		self.__accountNumber = accountNumber
 
@@ -43,7 +44,7 @@ class Savings_Account(Account):
 		return self.__accountNumber
 
 class Current_Account(Account):
-	def __init__(self, owner, accountNumber):
+	def __init__(self, accountNumber, owner):
 		super(Current_Account, self).__init__("Current",owner)
 		self.__accountNumber = accountNumber
 

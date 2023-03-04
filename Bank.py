@@ -30,10 +30,10 @@ class Bank:
 		raise AdditionalException.InvalidPinNumber()
 
 	def get_acct(self, accountNo):
-		check = filter(lambda x: x.details.Account.get_accountNumber() == accountNo, self.customers)
-		if(check):
-			return true
-		else:
-			raise AdditionalException.AccountNotFound()
+		for customer in self.customers:
+			for account in customer["details"].get_accounts():
+				if(account.get_accountNumber() == accountNo):
+					return account
+		raise AdditionalException.AccountNotFound()
 
 			
